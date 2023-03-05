@@ -23,9 +23,6 @@ return items.map(({preview, original, description}) => {
 
 };
 
-//console.log(galleryItems)
-
-
 galleryContainer.addEventListener('click' , onGalleryContainerClick);
 
 function onGalleryContainerClick(evt) {
@@ -39,10 +36,28 @@ if(!currentImg) {
 console.log(evt.target)
 
 const instance = basicLightbox.create(`
-<img src="${currentImg}"/>
-`)
+<img src="${currentImg}"/>`, 
+{
+  
+onShow: (instance) => {
+  window.addEventListener('keydown' , onEscKeyPress )
+  },
+
+onClose: (instance) => {
+window.removeEventListener('keydown' , onEscKeyPress)
+},
+  
+}
+);
 
 instance.show();
 
+function onEscKeyPress(event) {
+  if(event.code !== 'Escape') return;
+  instance.close();
 }
+
+}
+
+
 
